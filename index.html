@@ -1,57 +1,176 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surprise Letter</title>
+    <title>Happy Birthday Surprise! 🌸</title>
     <style>
-        body { margin: 0; padding: 0; background: #fff0f5; overflow: hidden; font-family: 'Arial', sans-serif; }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background: linear-gradient(135deg, #ffe6f0, #ffcce6); 
+            overflow: hidden; 
+            font-family: 'Arial', sans-serif; 
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         
-        /* Flower animation */
-        .flower { position: absolute; top: -50px; font-size: 30px; animation: fall linear infinite; }
-        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+        /* Realistic falling flower petals / floating flower elements */
+        .petal { 
+            position: fixed; 
+            top: -60px; 
+            font-size: 28px; 
+            animation: fallPetal linear infinite; 
+            z-index: 999;
+            pointer-events: none;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15));
+        }
 
-        /* Letter container */
+        @keyframes fallPetal { 
+            0% { 
+                transform: translateY(-60px) rotate(0deg) translateX(0px); 
+                opacity: 1;
+            }
+            50% { 
+                transform: translateY(50vh) rotate(180deg) translateX(30px); 
+            }
+            100% { 
+                transform: translateY(105vh) rotate(360deg) translateX(-20px); 
+                opacity: 0.8;
+            } 
+        }
+
+        /* Envelope / Trigger container */
         #envelope-container { 
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            text-align: center; z-index: 10; cursor: pointer;
+            position: relative;
+            text-align: center; 
+            z-index: 1000; 
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
+
+        #envelope-container:hover {
+            transform: scale(1.05);
+        }
+
+        #envelope {
+            font-size: 95px;
+            animation: pulseGlow 1.5s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255,105,180,0.4)); }
+            to { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255,105,180,0.8)); }
+        }
+
+        .tap-text {
+            color: #ad1457;
+            font-weight: bold;
+            margin-top: 12px;
+            font-size: 17px;
+            letter-spacing: 0.5px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 6px 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Zoom-in Letter / Card Animation */
         #letter {
-            display: none; width: 300px; padding: 20px; background: white;
-            border: 2px solid #ff69b4; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: none; 
+            width: 330px; 
+            max-height: 82vh;
+            overflow-y: auto;
+            padding: 20px; 
+            background: #ffffff;
+            border: 4px solid #ff4081; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(216, 27, 96, 0.3);
+            position: absolute;
+            z-index: 2000;
+            transform: scale(0);
+            opacity: 0;
         }
-        img { width: 100%; border-radius: 5px; }
+
+        /* Smooth Zoom-in Class */
+        .zoom-in-animation {
+            display: block !important;
+            animation: zoomInCard 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes zoomInCard {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        #letter img { 
+            width: 100%; 
+            border-radius: 12px; 
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .message-title {
+            color: #ad1457;
+            font-size: 22px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
-<div id="envelope-container">
-    <div id="envelope" style="font-size: 100px;">âœ‰ï¸</div>
-    <div id="letter">
-        <p>Your Special Message Here</p>
-        <img src="White Modern Birthday Celebration Card_20260807_071825_0000.png" alt="A beautiful memory">
-    </div>
+<div id="envelope-container" onclick="openLetter()">
+    <div id="envelope">💌</div>
+    <div class="tap-text">Tap to Open Surprise ✨</div>
+</div>
+
+<div id="letter">
+    <div class="message-title">Happy Birthday! 💖</div>
+    <!-- Yahan apni image ka direct link daal dein -->
+    <img src="White Modern Birthday Celebration Card_20260807_071825_0000.png" alt="Birthday Collage">
 </div>
 
 <script>
-    // Create falling flowers
-    function createFlower() {
-        const flower = document.createElement('div');
-        flower.innerHTML = 'ðŸŒ¸';
-        flower.className = 'flower';
-        flower.style.left = Math.random() * 100 + 'vw';
-        flower.style.animationDuration = Math.random() * 3 + 2 + 's';
-        document.body.appendChild(flower);
-        setTimeout(() => flower.remove(), 5000);
-    }
-    setInterval(createFlower, 300);
+    // Realistic floral elements (Petals and botanical symbols)
+    const petalsList = ['🌹', '🌸', '💮', '🏵️', '🌷', '🌺', '🍃', '✨'];
 
-    // Open letter
-    document.getElementById('envelope').onclick = function() {
-        this.style.display = 'none';
-        document.getElementById('letter').style.display = 'block';
-    };
+    function createPetal() {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.innerHTML = petalsList[Math.floor(Math.random() * petalsList.length)];
+        petal.style.left = Math.random() * window.innerWidth + 'px';
+        
+        const duration = Math.random() * 4 + 4;
+        petal.style.animationDuration = duration + 's';
+        petal.style.fontSize = (Math.random() * 12 + 22) + 'px';
+        
+        document.body.appendChild(petal);
+        
+        setTimeout(() => {
+            petal.remove();
+        }, duration * 1000);
+    }
+    
+    for(let i = 0; i < 18; i++) {
+        setTimeout(createPetal, i * 120);
+    }
+    setInterval(createPetal, 250);
+
+    function openLetter() {
+        document.getElementById('envelope-container').style.display = 'none';
+        const letter = document.getElementById('letter');
+        letter.classList.add('zoom-in-animation');
+    }
 </script>
 </body>
 </html>
