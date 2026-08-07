@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise Letter</title>
+    <style>
+        body { margin: 0; padding: 0; background: #fff0f5; overflow: hidden; font-family: 'Arial', sans-serif; }
+        
+        /* Flower animation */
+        .flower { position: absolute; top: -50px; font-size: 30px; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+
+        /* Letter container */
+        #envelope-container { 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            text-align: center; z-index: 10; cursor: pointer;
+        }
+        #letter {
+            display: none; width: 300px; padding: 20px; background: white;
+            border: 2px solid #ff69b4; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        img { width: 100%; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div id="envelope-container">
+    <div id="envelope" style="font-size: 100px;">âœ‰ï¸</div>
+    <div id="letter">
+        <p>Your Special Message Here</p>
+        <img src="White Modern Birthday Celebration Card_20260807_071825_0000.png" alt="A beautiful memory">
+    </div>
+</div>
+
+<script>
+    // Create falling flowers
+    function createFlower() {
+        const flower = document.createElement('div');
+        flower.innerHTML = 'ðŸŒ¸';
+        flower.className = 'flower';
+        flower.style.left = Math.random() * 100 + 'vw';
+        flower.style.animationDuration = Math.random() * 3 + 2 + 's';
+        document.body.appendChild(flower);
+        setTimeout(() => flower.remove(), 5000);
+    }
+    setInterval(createFlower, 300);
+
+    // Open letter
+    document.getElementById('envelope').onclick = function() {
+        this.style.display = 'none';
+        document.getElementById('letter').style.display = 'block';
+    };
+</script>
+</body>
+</html>
